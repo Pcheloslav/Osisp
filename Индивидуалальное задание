@@ -7,71 +7,39 @@
 set -eu
 
 if [[ "$#" -ne 3 ]]; then
-
-  echo "Invalid number of arguments"
-
+  echo "Invalid number of arguments" >&2
   exit 1
-
 fi
-
 
 target_owner=${1}
-
 src_dir=${2}
-
 output_file=${3}
 
-
 if ! id "${target_owner}" &> /dev/null; then
-
-  echo "User '${target_owner}' not found"
-
+  echo "User '${target_owner}' not found" >&2
   exit 1
-
 fi
-
 
 if [[ ! -d ${src_dir} ]]; then
-
-  echo "Source folder '${src_dir}' does not exist"
-
+  echo "Source folder '${src_dir}' does not exist" >&2
   exit 1
-
 fi
-
 
 if [[ -f "${output_file}" ]]; then
-
-  echo "Output file '${output_file}' already exists"
-
+  echo "Output file '${output_file}' already exists" >&2
   exit 1
-
 fi
 
-
 total_files=0
-
 find ${src_dir} -type f -print | {
-
-
   while read -r f; do
-
     file=$(realpath ${f})
-
     total_files=$((total_files + 1))
-
     file_owner=$(stat --format='%U' ${file})
-
     if [[ "${file_owner}" == "${target_owner}" ]]; then
-
       echo $(dirname ${file}) $(basename ${file}) $(stat --format='%s' ${file}) >> ${output_file}
-
     fi
-
   done
-
-
   echo "Total number of processed files: ${total_files}"
-
 }
 
