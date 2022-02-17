@@ -3,20 +3,25 @@
 #7	Написать скрипт, компилирующий и запускающий программу (имя исходного файла и exe- файла результата задаётся пользователем в качестве аргументов командной строки). 
 #В случае ошибок при компиляции вывести на консоль сообщение об ошибках и не запускать программу на выполнение.
 
-init_file=${1}
 
+init_file=${1}
 exe_file=${2}
 
+if [[ "$#" -ne 2 ]]; then
+        echo "There must be 2 arguments: 1.Initial file 2.Exe file" >&2
+        exit 1
+fi
+
+if [[ ! -f ${init_file} ]]; then
+        echo "1 argument should be a file" >&2
+        exit 1
+fi
 
 
 if gcc ${init_file} -o ${exe_file}; then
-
-./${exe_file};
+        ./${exe_file};
 
 else
-
-#Сообщение об ошибках компиляции выводит сам компилятор
-echo "Cannot compile";
-
+        echo "Cannot compile the initial file because of the syntax error" >&2;
 fi
 
