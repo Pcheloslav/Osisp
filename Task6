@@ -9,39 +9,23 @@
 
 set -eu
 
-
-
 if [[ "$#" -ne 3 ]]; then
-
-  echo "Invalid number of arguments. There must be 3 arguments: 1.Filename 2.Directory 3.Extension"
-
+  echo "Invalid number of arguments. There must be 3 arguments: 1.Filename 2.Directory 3.Extension" >&2
   exit 1
 
 fi
 
-
-
 outfile=${1}
-
 src_dir=${2}
-
 extension=${3}
 
 
-
 if [[ ! -d ${src_dir} ]]; then
-
-  echo "Source folder '${src_dir}' does not exist" 1>&2
-
+  echo "Source folder '${src_dir}' does not exist" >&2
   exit 1
-
 fi
 
 
-
 rm -f ${outfile}
-
 find ${src_dir} -type f -name "*.${extension}" | xargs -I {} basename {} >> ${outfile}
-
 sort -o ${outfile} ${outfile}
-
