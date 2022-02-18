@@ -26,8 +26,9 @@ if [[ ! -d ${src_dir} ]]; then
   exit 1
 fi
 
-find "${src_dir}" -user "${target_owner}" -type f -exec readlink -f {} \; | xargs ls -l | awk '{ print $9"\t"$5 }' > "${output_file}"
-find "${src_dir}" -type f | wc -l
+find ${src_dir} -type f -printf '%p %f %s\n' -user ${target_owner} > ${output_file}
+wc -l < ${output_file}
+
 
 
 
