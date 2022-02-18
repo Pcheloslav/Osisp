@@ -27,5 +27,5 @@ fi
 
 
 rm -f ${outfile}
-find ${src_dir} -type f -name "*.${extension}" | xargs -I {} basename {} >> ${outfile}
-sort -o ${outfile} ${outfile}
+find ${src_dir} -name "*.$extension" | sort -f > ${outfile}
+
