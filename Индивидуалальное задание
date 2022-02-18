@@ -15,6 +15,7 @@ target_owner=${1}
 src_dir=${2}
 output_file=${3}
 
+rm ${output_file}
 if ! id "${target_owner}" &> /dev/null; then
   echo "User '${target_owner}' not found" >&2
   exit 1
@@ -22,11 +23,6 @@ fi
 
 if [[ ! -d ${src_dir} ]]; then
   echo "Source folder '${src_dir}' does not exist" >&2
-  exit 1
-fi
-
-if [[ -f "${output_file}" ]]; then
-  echo "Output file '${output_file}' already exists" >&2
   exit 1
 fi
 
